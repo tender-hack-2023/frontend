@@ -1,11 +1,174 @@
 import Head from 'next/head'
-import Image from 'next/image'
-import { Inter } from 'next/font/google'
 import styles from '@/styles/Home.module.css'
+import { LineChart } from '@/charts/lineChart'
+import { TreeChart } from '@/charts/TreeChart'
+import { ScatterChart } from '@/charts/scatterChart'
+import { faker } from '@faker-js/faker'
+import { PieChart } from '@/charts/pieChart'
+import { ReactFunnelChart } from '@/charts/FunnelChart'
+import { BarSeriesChart } from '@/charts/BarSeriesChart'
+import { ChartDrawer } from '@/components/Drawer'
+import { useRouter } from 'next/router'
+import { useState } from 'react'
 
-const inter = Inter({ subsets: ['latin'] })
+
 
 export default function Home() {
+
+  let props = {
+    name:"Имя графика", 
+    datasets:[
+    {
+    name:"Имя линии", 
+    dataY: [2,3,5,8,1],
+    dataX: [1,2,3,4,5]
+    },
+    {
+      name:"ТАТТА линии", 
+      dataY: [5,6,9,2,3],
+      dataX: [1,2,3,4,5]
+    }
+  ]
+ }
+
+ const points = [
+  {
+      id: '1',
+      name: '1',
+  },
+  {
+      id: '2',
+      name: '2',
+  },
+  {
+      id: '3',
+      name: '3',
+  },
+  {
+      id: '2_1',
+      name: '2_1',
+      parent:'2',
+  },
+  {
+      id: '2_2',
+      name: '2_2',
+      parent:'2',
+  },
+  {
+      id: '1_1',
+      name: '1_1',
+      parent:'1',
+  },
+  {
+      id: '3_1',
+      name: '3_1',
+      parent:'3',
+  },
+  {
+      id: '2_1_1',
+      name: '2_1_1',
+      parent:'2_1',
+      value: 1
+  },
+  {
+      id: '2_1_2',
+      name: '2_1_2',
+      parent:'2_1',
+      value: 2
+  },
+  {
+      id: '2_1_3',
+      name: '2_1_3',
+      parent:'2_1',
+      value: 3
+  },
+  {
+      id: '2_2_1',
+      name: '2_2_1',
+      parent:'2_2',
+      value: 3
+  },
+  {
+      id: '2_2_2',
+      name: '2_2_2',
+      parent:'2_2',
+      value: 18
+  },
+  {
+      id: '3_1_1',
+      name: '3_1_1',
+      parent:'3_1',
+      value: 9
+  },
+  {
+      id: '1_1_1',
+      name: '1_1_1',
+      parent:'1_1',
+      value: 10
+  },
+
+]
+
+  const dataset = 
+    {
+      label: 'DDDDDD',
+      data: Array.from({ length: 100 }, () => ({
+        x: faker.datatype.number({ min: -100, max: 100 }),
+        y: faker.datatype.number({ min: -100, max: 100 }),
+      })),
+    }
+
+  const me = {
+    label:'FUCKING ME',
+    data:[{
+      x:0,
+      y:0
+    }]
+  }
+
+
+const pieData = {
+        labels: ['Overall Yay', 'Overall Nay', 'Group A Yay', 'Group A Nay', 'Group B Yay', 'Group B Nay', 'Group C Yay', 'Group C Nay'],
+        datasets: [
+            {
+            data: [21, 79]
+            },
+            {
+            data: [33, 67]
+            },
+            {
+            data: [20, 80]
+            },
+            {
+            data: [10, 90]
+            }
+        ]
+    }
+
+    const funnelData = [
+      { name: 'Awareness', value: 252 },
+      { name: 'Interest', value: 105 },
+      { name: 'Consideration', value: 84 },
+    ]
+
+    const barData = {
+      name:"БАР СТАКЕД",
+      datasets:[
+        {
+          name:'Выиграл',
+          dataX: ['A', 'B', 'C', 'D'],
+          dataY: [1,2,3,4]
+        },
+        {
+          name:'Проиграл',
+          dataX: ['A', 'B', 'C', 'D'],
+          dataY: [4,3,2,1]
+        },
+      ]
+    }
+  
+  const [inn, setInn] = useState('')
+  let router = useRouter()
   return (
     <>
       <Head>
@@ -15,108 +178,17 @@ export default function Home() {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <main className={styles.main}>
-        <div className={styles.description}>
-          <p>
-            Get started by editing&nbsp;
-            <code className={styles.code}>src/pages/index.tsx</code>
-          </p>
-          <div>
-            <a
-              href="https://vercel.com?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-              target="_blank"
-              rel="noopener noreferrer"
-            >
-              By{' '}
-              <Image
-                src="/vercel.svg"
-                alt="Vercel Logo"
-                className={styles.vercelLogo}
-                width={100}
-                height={24}
-                priority
-              />
-            </a>
+          <div className={styles.authWrapper}>
+            <h1>Введите свой ИНН</h1>
+            <input maxLength={10} value={inn} onChange={(e)=>setInn(e.target.value)} className={styles.input} placeholder='ИНН'></input>
+            <button onClick={()=>router.push('sales/'+inn)} className={styles.authBtn}>ВОЙТИ</button>
           </div>
-        </div>
-
-        <div className={styles.center}>
-          <Image
-            className={styles.logo}
-            src="/next.svg"
-            alt="Next.js Logo"
-            width={180}
-            height={37}
-            priority
-          />
-          <div className={styles.thirteen}>
-            <Image
-              src="/thirteen.svg"
-              alt="13"
-              width={40}
-              height={31}
-              priority
-            />
-          </div>
-        </div>
-
-        <div className={styles.grid}>
-          <a
-            href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Docs <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Find in-depth information about Next.js features and&nbsp;API.
-            </p>
-          </a>
-
-          <a
-            href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Learn <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Learn about Next.js in an interactive course with&nbsp;quizzes!
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Templates <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Discover and deploy boilerplate example Next.js&nbsp;projects.
-            </p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            <h2 className={inter.className}>
-              Deploy <span>-&gt;</span>
-            </h2>
-            <p className={inter.className}>
-              Instantly deploy your Next.js site to a shareable URL
-              with&nbsp;Vercel.
-            </p>
-          </a>
-        </div>
+          {/* <BarSeriesChart {...barData}></BarSeriesChart>
+          <LineChart {...props}></LineChart>
+          <TreeChart points={points as any} name='FUCK'></TreeChart>
+          <ScatterChart dataset={dataset} me={me} name='ИМЯ СКАТЕРА' ></ScatterChart>
+          <PieChart name='ПАЙ' data={pieData}></PieChart>
+          <ReactFunnelChart name='ВОРОНКА' data={funnelData}></ReactFunnelChart> */}
       </main>
     </>
   )
