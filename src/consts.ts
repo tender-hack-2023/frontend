@@ -37,3 +37,18 @@ export const NAMED_BACKGROUNDS_COLORS = [
     CHART_BACKGROUNDS_COLORS.purple,
     CHART_BACKGROUNDS_COLORS.grey,
 ];
+
+export const MONTHS = [
+    'January',
+    'February',
+    'March',
+    'April',
+    'May',
+    'June',
+    'July',
+    'August',
+    'September',
+    'October',
+    'November',
+    'December'
+  ];

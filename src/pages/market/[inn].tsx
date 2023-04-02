@@ -37,15 +37,15 @@ import { TreeChart } from "@/charts/TreeChart";
     const points = [
         {
             id: '1',
-            name: '1',
+            name: 'Центральный ФО',
         },
         {
             id: '2',
-            name: '2',
+            name: 'Дальневосточный ФО',
         },
         {
             id: '3',
-            name: '3',
+            name: 'Сибирский ФО',
         },
         {
             id: '2_1',
@@ -81,7 +81,7 @@ import { TreeChart } from "@/charts/TreeChart";
         },
         {
             id: '2_1_3',
-            name: '2_1_3',
+            name: '',
             parent:'2_1',
             value: 3
         },
@@ -93,7 +93,7 @@ import { TreeChart } from "@/charts/TreeChart";
         },
         {
             id: '2_2_2',
-            name: '2_2_2',
+            name:  '',
             parent:'2_2',
             value: 18
         },
@@ -105,7 +105,7 @@ import { TreeChart } from "@/charts/TreeChart";
         },
         {
             id: '1_1_1',
-            name: '1_1_1',
+            name: 'Сибирский ФО',
             parent:'1_1',
             value: 10
         },
@@ -113,7 +113,7 @@ import { TreeChart } from "@/charts/TreeChart";
       ]
 
       const pieData = {
-        labels: ['1_1', '1_2', '2_1', '2_2', '3_1', '3_2', '4_1', '4_2', '5_1', '5_2'],
+        labels: ['Дерево рынок', 'Дерево я', 'Деревообработка рынок', 'Деревообработка я', 'Металл рынок', 'Металл я', 'Станки рынок', 'Станки я', 'Работа на подряде рынок', 'Работа на подряде я'],
         datasets: [
             {
             data: [21, 79]
@@ -207,29 +207,12 @@ import { TreeChart } from "@/charts/TreeChart";
                         </div>
 
                         <div className={styles.widget}>
-                            <div className={styles.widgetTitle}>оборот сегмента</div>
+                            <div className={styles.widgetTitle}>Объем сегмента</div>
                             <div className={styles.widgetValue}>₽ 10,260,560 <img src='/up.svg'></img></div>
                             <div className={styles.widgetDescr}> изменения в сегменте 12% <img src='/up.svg'></img></div>
                             <div className={styles.widgetDescr}>общий оборот рынка 3% <img src='/down.svg'></img></div>
                         </div>
-                        <div className={styles.widget}>
-                            <div className={styles.widgetTitle}>оборот сегмента</div>
-                            <div className={styles.widgetValue}>₽ 10,260,560 <img src='/up.svg'></img></div>
-                            <div className={styles.widgetDescr}> изменения в сегменте 12% <img src='/up.svg'></img></div>
-                            <div className={styles.widgetDescr}>общий оборот рынка 3% <img src='/down.svg'></img></div>
-                        </div>
-                        <div className={styles.widget}>
-                            <div className={styles.widgetTitle}>оборот сегмента</div>
-                            <div className={styles.widgetValue}>₽ 10,260,560 <img src='/up.svg'></img></div>
-                            <div className={styles.widgetDescr}> изменения в сегменте 12% <img src='/up.svg'></img></div>
-                            <div className={styles.widgetDescr}>общий оборот рынка 3% <img src='/down.svg'></img></div>
-                        </div>
-                        <div className={styles.widget}>
-                            <div className={styles.widgetTitle}>оборот сегмента</div>
-                            <div className={styles.widgetValue}>₽ 10,260,560 <img src='/up.svg'></img></div>
-                            <div className={styles.widgetDescr}> изменения в сегменте 12% <img src='/up.svg'></img></div>
-                            <div className={styles.widgetDescr}>общий оборот рынка 3% <img src='/down.svg'></img></div>
-                        </div>
+                       
                     
                     </div>
                 <div>

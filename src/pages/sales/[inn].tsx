@@ -8,25 +8,49 @@ import dayjs from 'dayjs';
 import { LineChart } from "@/charts/lineChart";
 import { ReactFunnelChart } from "@/charts/FunnelChart";
 import { BarSeriesChart } from "@/charts/BarSeriesChart";
+import { server } from "@/requests";
+import axios from "axios";
+import { useRouter } from "next/router";
+
+
 
  const Sales:React.FC = () =>{
+    let router = useRouter()
+    const { inn } = router.query
+
+    const deltaMonths = (new Date().getFullYear()-2019)*12
+
     const [date, setDate] = useState({
-        date:[new Date().getMonth()-1, new Date().getMonth()-1],
+        date:[deltaMonths + new Date().getMonth()-1, deltaMonths + new Date().getMonth()-1],
         datePickerState:[]
     })
 
+    
+
+  
+    axios.post('http://10.10.117.156:8080/api/instance1',
+    {
+        dateStart: date.date[0],
+        dateEnd:  date.date[1],
+        inn: inn,
+    }
+    ).then(res=>{
+        console.log(res.data)
+    })
+
+
     const getQuarter = (month:number) =>{
         if (month < 4) {
-            return [9,12]
+            return [deltaMonths-3,deltaMonths]
         }
         else{
             let num_quarter = Math.ceil(month / 3)-1
-            return [3*(num_quarter-1), 3*num_quarter]
+            return [deltaMonths +3*(num_quarter-1), deltaMonths +3*num_quarter]
         }
     }
 
     let values = {
-        'month':[new Date().getMonth()-1, new Date().getMonth()-1],
+        'month':[deltaMonths +new Date().getMonth()-1, deltaMonths + new Date().getMonth()-1],
         'quarter': getQuarter( new Date().getMonth()-1),
         'picker': date,
         'all':'all'
@@ -35,15 +59,15 @@ import { BarSeriesChart } from "@/charts/BarSeriesChart";
 
 
     let lineProps = {
-        name:"Имя графика", 
+        name:"Мои продажи", 
         datasets:[
         {
-        name:"Имя линии", 
-        dataY: [2,3,5,8,1],
-        dataX: [1,2,3,4,5]
+            name:"Я сейчас", 
+            dataY: [2,3,5,8,1],
+            dataX: [1,2,3,4,5]
         },
         {
-          name:"ТАТТА линии", 
+          name:"Я в прошлом", 
           dataY: [5,6,9,2,3],
           dataX: [1,2,3,4,5]
         }
@@ -64,38 +88,59 @@ import { BarSeriesChart } from "@/charts/BarSeriesChart";
 
 
       const barData = {
-        name:"БАР СТАКЕД",
+        name:"Сегменты",
         datasets:[
           {
-            name:'Выиграл',
-            dataX: ['A', 'B', 'C', 'D'],
-            dataY: [1,3,7,4]
+            name:'Дерево',
+            dataX: ['Я сейчас', 'Я в прошлом', 'Предикт'],
+            dataY: [5,4,3]
           },
           {
-            name:'Проиграл',
-            dataX: ['A', 'B', 'C', 'D'],
-            dataY: [4,3,2,1]
-          },
+            name:'Деревообработка',
+            dataX: ['Я сейчас', 'Я в прошлом', 'Предикт'],
+            dataY: [4,5,2]
+        },
+          {
+            name:'Металл',
+            dataX: ['Я сейчас', 'Я в прошлом', 'Предикт'],
+            dataY: [5,4,3]
+        },
+          {
+            name:'Станки',
+            dataX: ['Я сейчас', 'Я в прошлом', 'Предикт'],
+            dataY: [5,4,3]
+        },
+          {
+            name:'Работа на подряде',
+            dataX: ['Я сейчас', 'Я в прошлом', 'Предикт'],
+            dataY: [5,4,3]
+        },
         ]
       }
 
       const [categories, setCategories] = useState({
-        categories:['категория1','категория2','категория3','категория4','категория5'],
-        active:'kатегория1'
+        categories:['Дерево','Деревообработка','Металл','Станки','Работа на подряде'],
+        active:'Дерево'
       }
       )
+
     
     const change_line_percent =   lineProps.datasets[0].dataY.reduce(function(sum:any, elem:any) {return sum + elem;}, 0)
     /
     lineProps.datasets[1].dataY.reduce(function(sum:any, elem:any) {return sum + elem;}, 0) * 100
 
-    const change_funnel_percent = funnelData1[1].value/funnelData1[2].value - funnelData2[1].value/funnelData2[2].value
+
+    const change_line_percent_2 =   lineProps.datasets[0].dataY.reduce(function(sum:any, elem:any) {return sum + elem;}, 0)
+    /
+    lineProps.datasets[1].dataY.reduce(function(sum:any, elem:any) {return sum + elem;}, 0) * 100
+
+    const change_funnel_percent = funnelData1[2].value/funnelData2[1].value*100
     
     const change_bar_percent =   barData.datasets[0].dataY.reduce(function(sum:any, elem:any) {return sum + elem;}, 0)
     /
     barData.datasets[1].dataY.reduce(function(sum:any, elem:any) {return sum + elem;}, 0) * 100
 
-
+    console.log(date)
     return(
         <main className={styles.main}>
         <ChartDrawer></ChartDrawer>
@@ -131,7 +176,7 @@ import { BarSeriesChart } from "@/charts/BarSeriesChart";
                             onChange={(e)=>{  
                                 setDate(
                                     {
-                                        date: e?.map((value)=>(value?.month() != undefined? value?.month()+ 1:null)),
+                                        date: e?.map((value)=>(value?.month() != undefined? ((value?.year as any)-2019)*12 + value?.month()+ 1:null)),
                                         datePickerState: e == null? []:[dayjs(e[0]?.toDate()), dayjs(e[1]?.toDate())] as any
                                     } as any
                                 )
@@ -153,15 +198,15 @@ import { BarSeriesChart } from "@/charts/BarSeriesChart";
                     <div className={styles.chartCard}>
                         <div className={styles.chartHeader}>
                             <div>Сравнительные продажи во времени</div>
-                            <div>Изменения {change_line_percent}% <img src={change_line_percent < 100? '/down.svg':'/up.svg'}></img></div>
+                            <div>Изменения {change_line_percent < 100? (100-change_line_percent).toFixed(2):(change_line_percent-100).toFixed(2)}% <img src={change_line_percent < 100? '/down.svg':'/up.svg'}></img></div>
                         </div>
                         <LineChart {...lineProps}></LineChart>
                     </div>
 
                     <div className={styles.chartCard}>
                         <div className={styles.chartHeader}>
-                            <div>Сравнительныая эффективность участия </div>
-                            <div>Изменения {change_funnel_percent.toFixed(2)}% <img src= {change_funnel_percent > 0? '/up.svg':'/down.svg'}></img></div>
+                            <div>Сравнительная эффективность участия </div>
+                            <div>Изменения {change_funnel_percent < 100? (100-change_funnel_percent).toFixed(2):(change_funnel_percent-100).toFixed(2)}% <img src={change_funnel_percent < 100? '/down.svg':'/up.svg'}></img></div>
                         </div>
                         <div className={styles.funnelWrapper}>
                             <div className={styles.funnel}>
@@ -178,7 +223,7 @@ import { BarSeriesChart } from "@/charts/BarSeriesChart";
                     <div className={styles.chartCard}>
                         <div className={styles.chartHeader}>
                             <div>Сравнительная аналитика топ 5 сегментов</div>
-                            <div>Изменения {change_bar_percent}% <img src={change_bar_percent < 100? '/down.svg':'/up.svg'}></img></div>
+                            <div>Изменения {change_bar_percent < 100? (100-change_bar_percent).toFixed(2):(change_bar_percent-100).toFixed(2)}% <img src={change_bar_percent < 100? '/down.svg':'/up.svg'}></img></div>
                         </div>
                         <BarSeriesChart {...barData}></BarSeriesChart>
                     </div>
@@ -189,7 +234,7 @@ import { BarSeriesChart } from "@/charts/BarSeriesChart";
                     <div className={styles.chartCard}>
                         <div className={styles.chartHeader}>
                             <div>Сравнительная аналитика продажи в сегментах</div>
-                            <div>Изменения</div>
+                            <div>Изменения {change_line_percent_2 < 100? (100-change_line_percent_2).toFixed(2):(change_line_percent-100).toFixed(2)}% <img src={change_line_percent < 100? '/down.svg':'/up.svg'}></img></div>
                         </div>
                         <Segmented 
                             style={{

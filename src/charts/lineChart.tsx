@@ -1,6 +1,6 @@
 import { ChartDatasetColoredIE, ChartDatasetIE } from "@/interfaces";
 import React from "react";
-import { NAMED_BACKGROUNDS_COLORS, NAMED_COLORS } from "@/consts";
+import { NAMED_BACKGROUNDS_COLORS, NAMED_COLORS, MONTHS } from "@/consts";
 
 import {
   Chart as ChartJS,
@@ -37,7 +37,7 @@ export const LineChart:React.FC<LineChartIE> = (props) =>{
     let labels = new Array()
 
     for (let i:number = 0; i < props.datasets.length; i++){
-        labels = props.datasets[i].dataX
+        labels = props.datasets[i].dataX.map((value)=>MONTHS[(value as number)%MONTHS.length])
         datasets.push(
             {
                 borderColor:NAMED_COLORS[i],

@@ -29,8 +29,9 @@ export const TreeChart:React.FC<TreeMapChartIE> = (props) =>{
               layoutAlgorithm: "squarified",
               allowDrillToNode: true,
               animation: false,
+              
               dataLabels: {
-                enabled: true
+                enabled: false
               },
               levelIsConstant: false,
               levels: [
