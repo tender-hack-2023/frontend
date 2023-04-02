@@ -1,5 +1,5 @@
 import { ChartDrawer } from "@/components/Drawer";
-import React, { use, useState } from "react";
+import React, { use, useEffect, useState } from "react";
 import styles from '@/styles/Home.module.css'
 
 import { Segmented, DatePicker } from 'antd';
@@ -25,18 +25,8 @@ import { useRouter } from "next/router";
         datePickerState:[]
     })
 
-    
-
-  
-    axios.post('http://10.10.117.156:8080/api/instance1',
-    {
-        dateStart: date.date[0],
-        dateEnd:  date.date[1],
-        inn: inn,
-    }
-    ).then(res=>{
-        console.log(res.data)
-    })
+   
+   
 
 
     const getQuarter = (month:number) =>{

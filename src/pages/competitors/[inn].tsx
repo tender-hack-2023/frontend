@@ -40,26 +40,26 @@ import { ScatterChart } from "@/charts/scatterChart";
 
     const items: MenuProps['items'] = [
         {
-          label: 'Категория 1',
-          key: 'Категория 1',
+          label: 'Металл',
+          key: 'Металл',
         },
         {
-            label: 'Категория 2',
-            key: 'Категория 2',
+            label: 'Дерево',
+            key: 'Дерево',
         },
         {
-            label: 'Категория 3',
-            key: 'Категория 3',
+            label: 'Деревообработка',
+            key: 'Деревообработка',
         },
         {
-            label: 'Категория 4',
-            key: 'Категория 4',
+            label: 'Обработка',
+            key: 'Обработка',
         },
     ]
 
     const dataset = 
     {
-      label: 'DDDDDD',
+      label: 'Конкуренты',
       data: Array.from({ length: 100 }, () => ({
         x: faker.datatype.number({ min: -100, max: 100 }),
         y: faker.datatype.number({ min: -100, max: 100 }),
@@ -67,7 +67,7 @@ import { ScatterChart } from "@/charts/scatterChart";
     }
 
     const me = {
-        label:'FUCKING ME',
+        label:'Я (Компания поставщик)',
         data:[{
         x:0,
         y:0
@@ -164,7 +164,7 @@ import { ScatterChart } from "@/charts/scatterChart";
                                 <div>Доля компании на рынке по сегментам</div>
                                 <div>Изменения</div>
                             </div>
-                            <ScatterChart dataset={dataset} me={me} name='ИМЯ СКАТЕРА' ></ScatterChart>
+                            <ScatterChart dataset={dataset} me={me} name='Анализ конкурентов' ></ScatterChart>
                         </div>
 
                         
